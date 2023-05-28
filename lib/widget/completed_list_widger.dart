@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/provider/todos.dart';
 
+import '../provider/shared_preferences_todos_provider.dart';
 import 'todo_widget.dart';
 
 
@@ -10,7 +11,7 @@ class CompletedListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final provider = Provider.of<TodosProvider>(context);
+  final provider = Provider.of<SharedPreferencesTodosProvider>(context);
   final todos= provider.todosCompleted;
 
     return  todos.isEmpty? const Center(

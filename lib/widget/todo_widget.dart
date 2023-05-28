@@ -8,12 +8,13 @@ import 'package:todo_app/utils.dart';
 
 import '../model/todo.dart';
 import '../page/edit_todo_page.dart';
+import '../provider/shared_preferences_todos_provider.dart';
 
 
 class TodoWidget extends StatelessWidget {
  final Todo todo;
   const TodoWidget({Key key, 
-     this.todo,
+   @required  this.todo,
      }) : super(key: key);
 
   @override
@@ -21,7 +22,7 @@ class TodoWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Slidable(
-      // key: Key(todo.id),
+       key: Key(todo.id),
        startActionPane: ActionPane(
          key: Key(todo.id),
           extentRatio: 0.25,
@@ -74,7 +75,7 @@ class TodoWidget extends StatelessWidget {
                 checkColor: Colors.white,
                 value: todo.isDone, 
                 onChanged: (_){
-                  final provider = Provider.of<TodosProvider>(context,listen: false);
+                  final provider = Provider.of<SharedPreferencesTodosProvider>(context,listen: false);
                   final isDone= provider.toggleTodoStatus(todo);
                   Utils.showSnackBar(context, 
                    isDone ? 'Task completed' :'Task marked uncompleted',
@@ -111,20 +112,18 @@ class TodoWidget extends StatelessWidget {
 }
 
   deleteTodo(BuildContext context, Todo todo) {
-    final provider = Provider.of<TodosProvider>(context, listen: false);
+    final provider = Provider.of<SharedPreferencesTodosProvider>(context, listen: false);
     provider.removeTodo(todo);
 
     Utils.showSnackBar(context,'Deleted the Task');
   }
   
-  void editTodo(BuildContext context, Todo todo) => Navigator.of(context).push(
-    MaterialPageRoute(
-      builder:(context) => EditTodoPage(todo : todo),
-    )
-  );
+   void editTodo(BuildContext context, Todo todo,) => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => EditTodoPage(todo: todo,),
+        ),
+      );
    
-    // final provider = Provider.of<TodosProvider>(context, listen: false);
-    // provider.editTodo(todo);
 }
 
  

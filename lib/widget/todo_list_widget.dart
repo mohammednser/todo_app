@@ -4,6 +4,7 @@ import 'package:todo_app/provider/todos.dart';
 import 'package:todo_app/widget/todo_widget.dart';
 
 import '../model/todo.dart';
+import '../provider/shared_preferences_todos_provider.dart';
 
 
 class TodoListWidget extends StatelessWidget {
@@ -11,7 +12,7 @@ class TodoListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final provider = Provider.of<TodosProvider>(context);
+  final provider = Provider.of<SharedPreferencesTodosProvider>(context);
   final todos= provider.todos;
 
     return  todos.isEmpty? const Center(

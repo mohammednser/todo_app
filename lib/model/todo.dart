@@ -17,6 +17,25 @@ class TodoField {
     @required this.title,
     this.description = '',
     this.id,
-    this.isDone = false,
+    this.isDone = false, 
+    completed,
   });
+
+  static Todo fromJson(Map<String, dynamic> json) {
+    return Todo(
+      id: json['id'],
+      title: json['title'],
+    //  completed: json['completed'], 
+      description:json['description'] ,
+
+    );
+  }
+   // تحويل كائن Todo إلى JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+    };
+}
 }

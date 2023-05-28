@@ -5,6 +5,8 @@ import 'package:todo_app/provider/todos.dart';
 
 import 'package:todo_app/widget/todo_from_widget.dart';
 
+import '../provider/shared_preferences_todos_provider.dart';
+
 
 class AddTodoDialogWidget extends StatefulWidget {
   const AddTodoDialogWidget({Key key,}) : super(key: key);
@@ -37,8 +39,8 @@ class _AddTodoDialogWidgetState extends State<AddTodoDialogWidget> {
           const SizedBox(height: 8),
           TodoFormWidget(
                 onChangedTitle: (title) => setState(() => this.title = title),
-                onChangedDescription: (description) =>
-                    setState(() => this.description = description),
+                 onChangedDescription: (description) =>
+                     setState(() => this.description = description),
                 onSavedTodo:  addTodo ,
                 
               ),
@@ -59,9 +61,9 @@ void addTodo() {
       id: DateTime.now().toString(),
       createdTime: DateTime.now(), 
       title: title,
-      description: description
+      description: description,
       );
-    final provider = Provider.of<TodosProvider>(context,listen:false);
+    final provider = Provider.of<SharedPreferencesTodosProvider>(context,listen:false);
     provider.addTodo(todo);
     Navigator.of(context).pop();
     
