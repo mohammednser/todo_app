@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../utils.dart';
+
 class TodoField {
   static const createdTime = 'createdTime';
 }
@@ -18,24 +20,25 @@ class TodoField {
     this.description = '',
     this.id,
     this.isDone = false, 
-    completed,
+   
   });
-
   static Todo fromJson(Map<String, dynamic> json) {
     return Todo(
-      id: json['id'],
+      createdTime: Utils.toDateTime(json['createdTime']),
       title: json['title'],
-    //  completed: json['completed'], 
-      description:json['description'] ,
+      description:json['description'], 
+       id: json['id'],
+       isDone: json['isDone'],
 
     );
   }
-   // تحويل كائن Todo إلى JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-    };
-}
+  Map<String,dynamic> toJson() => {
+    'createdTime':Utils.fromDateTimeToJson(createdTime),
+   'title':title,
+   'description':description,
+   'id':id,
+   'isDone':isDone
+
+  };
+
 }

@@ -1,52 +1,62 @@
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_app/provider/shared_preferences_todos_provider.dart';
-import 'package:todo_app/provider/todos.dart';
+import 'package:todo_app/page/screens/home_screen.dart';
+import 'package:todo_app/page/screens/intro_screen.dart';
 
+
+
+import 'package:todo_app/provider/todos_provider.dart';
+
+import 'nav_bar.dart';
 import 'page/home_page.dart';
+import 'page/screens/auth_screen.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
    WidgetsFlutterBinding.ensureInitialized();
-  await SharedPreferences.getInstance();
+   await Firebase.initializeApp();
  
-  runApp(ToDoApp(prefs));
+  runApp(const ToDoApp());
 }
 
 class ToDoApp extends StatelessWidget {
-  //  const ToDoApp({Key key, }) : super(key: key);
-  final SharedPreferences _prefs;
-     const ToDoApp(this._prefs, {Key key}) : super(key: key);
+    const ToDoApp({Key key, }) : super(key: key);
+  
   
   static const String title='Todo App';
 
   @override
   Widget build(BuildContext context) {
+    
     return  MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-        create:(BuildContext context) => SharedPreferencesTodosProvider(_prefs),
-        ),
-      //   ChangeNotifierProvider<TodosProvider>(
-      //  create: (_) => TodosProvider(),   
-      //  )   
+       
+        ChangeNotifierProvider<TodosProvider>(
+       create: (_) => TodosProvider(),   
+       )   
       ],
       
-      // child: ChangeNotifierProvider(
-      //   create:(BuildContext context) => SharedPreferencesTodosProvider(_prefs),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: title,
-          theme: ThemeData(
-            primarySwatch: Colors.pink,
-            scaffoldBackgroundColor: const Color(0xFFf6f5ee),
+        child:  MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: title,
+            theme: ThemeData(
+              primarySwatch: Colors.cyan,
+              scaffoldBackgroundColor: const Color(0xFFf6f5ee),
+            ),
+            home:     IntroScreen(),
+              routes: {
+          'intro': (context) => IntroScreen(),
+          'home': (context) =>  HomePage(),
+          'login': (context) => const AuthScreen(authType: AuthType.login),
+          'register': (context) => const AuthScreen(authType: AuthType.register),
+              },
           ),
-          home:  const HomePage(),
-        ),
-      );
+        );
+     
+      
     
     
   }
+
 }

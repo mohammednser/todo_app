@@ -3,10 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/todo.dart';
-import 'package:todo_app/provider/todos.dart';
+import 'package:todo_app/page/home_page.dart';
 import 'package:todo_app/widget/todo_from_widget.dart';
 
-import '../provider/shared_preferences_todos_provider.dart';
+import '../provider/todos_provider.dart';
 
 
 class EditTodoPage extends StatefulWidget {
@@ -15,7 +15,6 @@ class EditTodoPage extends StatefulWidget {
   const EditTodoPage({Key key, this.todo}) : super(key: key);
 
   @override
- 
  State<EditTodoPage> createState() => _EditTodoPageState();
 }
 
@@ -37,16 +36,41 @@ class _EditTodoPageState extends State<EditTodoPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Edit Todo'),
+          foregroundColor: Colors.white,
+          title: const Text('Edit Todo',style: TextStyle(color: Colors.white),),
           actions: [
             IconButton(
-              icon: const Icon(Icons.delete),
+              icon: const Icon(Icons.delete , color: Colors.red,),
               onPressed: () {
-                final provider =
-                    Provider.of<SharedPreferencesTodosProvider>(context, listen: false);
-                provider.removeTodo(widget.todo);
-
-                Navigator.of(context).pop();
+                showDialog(context: context,
+                 builder: (context) =>AlertDialog(
+                  title:Text("Warning!!!"),
+                    content: Text("Are you sure to delete?" , style: TextStyle(color: Colors.red),), 
+                    actions: [
+                      TextButton(child: Text('CANCEL'),
+                       onPressed: () => Navigator.of(context).pop() ,
+                      ),
+                       TextButton(child: Text('Delete' , style: TextStyle(color: Colors.red)),
+                       onPressed: () {
+                        
+                        final provider =
+                    Provider.of<TodosProvider>(context, listen: false);
+                        provider.removeTodo(widget.todo);
+                        Navigator.of(context).pop() ;
+                        Navigator.of(context).pop() ;
+                 
+               } 
+               
+              ),
+                
+                    ],  
+                 )
+                 );
+                // final provider =
+                //     Provider.of<TodosProvider>(context, listen: false);
+                // provider.removeTodo(widget.todo);
+                 
+                // Navigator.of(context).pop();
               },
             )
           ],
@@ -80,14 +104,12 @@ class _EditTodoPageState extends State<EditTodoPage> {
     if (!isValid) {
       return;
     } else {
-      final provider = Provider.of<SharedPreferencesTodosProvider>(context, listen: false);
+      final provider = Provider.of<TodosProvider>(context, listen: false);
 
       provider.updateTodo(widget.todo,title,description);
 
       Navigator.of(context).pop();
-      if (kDebugMode) {
-        print(description);
-      }
+      
     }
   }
 }

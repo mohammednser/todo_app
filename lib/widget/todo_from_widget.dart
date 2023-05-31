@@ -47,7 +47,7 @@ class TodoFormWidget extends StatelessWidget {
       ),
     );
    Widget buildDescription() => TextFormField(
-        initialValue: title,
+        initialValue: description,
         maxLines: 5,
         onChanged: onChangedDescription,
         validator: (description) {
@@ -69,7 +69,7 @@ class TodoFormWidget extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all(Colors.black),
         ),
         onPressed: onSavedTodo, 
-        child:const Text('Save'), 
+        child:const Text('Save' ,style: TextStyle(color: Colors.white),), 
        
         ),
     );
